@@ -10,8 +10,11 @@ mod tests {
         let url = "http://localhost:8000/api/audio/effect";
 
         // Constructing multipart form with audio file and effect parameters
+        let path = "tests/fixtures/sample_audio.mp3";
+        let audio_part = reqwest::multipart::Part::file(path).expect("File should exist");
+
         let form = reqwest::multipart::Form::new()
-            .part("audio", reqwest::multipart::Part::file("tests/fixtures/sample_audio.mp3").unwrap())
+            .part("audio", audio_part)
             .text("effect_type", "reverb")
             .text("effect_params", json!({ "depth": 0.8, "decay": 1.2 }).to_string());
 
